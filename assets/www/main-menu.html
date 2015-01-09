@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Main Menu</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/jquery.sidr.dark.css">    
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script type="text/javascript">
+		$(document).bind("mobileinit", function () {
+			$.mobile.ajaxEnabled = false;
+		});
+		</script>
+        <script src="js/plugins.js"></script>     
+        <script src="js/jquery.mobile-1.4.5.js"></script>        
+        <script src="js/common.js"></script>
+        
+</head>
+    <body id="silver-bg">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <div data-role="page" id="main-menu">
+        
+        <main data-role="main">
+        	  <div class="login-main-menu">
+              	<div class="main-menu-logo"><img src="img/main-menu-logo.png"></div>
+                <ul>
+                	<li>
+                    	<a href="lr-record-view.html?countrytabs=1" class="menu-li-corner">
+                        	<figure class="lr-icon-pos">
+                            <img src="img/main-menu-lr-upload.png" ><br>Upload LR
+                            </figure>
+                        </a>
+                    </li>
+                    <li>
+                    	<a href="#" class="menu-li-corner">
+                        	<figure class="helpdesk-icon-pos">
+                            <img src="img/helpdesk-ico.png" ><br>
+                            Helpdesk
+                        </figure>
+                        </a>
+                    </li>
+                    <li>
+                    	<a href="suppliercontact-page.html" class="menu-li-corner">
+                        	<figure class="messanger-icon-pos">
+                            <img src="img/conversation-ico.png" ><br>
+                            Messanger
+                        </figure>
+                        	<figcaption class="notification-red">99</figcaption>
+                        </a>
+                    </li>
+                    <li>
+                    	<a href="#" class="menu-li-corner">
+                        	<figure class="mail-icon-pos">
+                            <img src="img/mail-ico.png" ><br>
+                            Auto Mail
+                        </figure>
+                        <figcaption class="notification-red">99</figcaption>
+                        </a>
+                    </li>
+                </ul>
+                <center>
+                <a href="index.html">Logout</a>
+                </center>
+              </div>
+              
+        </main>
+        </div>
+        <script src="js/main.js"></script> 
+    </body>
+</html>

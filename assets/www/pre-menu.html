@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Contact List</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/jquery.sidr.dark.css">    
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-ui.js"></script>
+         <script type="text/javascript">
+		$(document).bind("mobileinit", function () {
+			$.mobile.ajaxEnabled = false;
+		});
+		</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>      
+        <script src="js/jquery.mobile-1.4.5.js"></script>        
+        <script src="js/common.js"></script>
+        
+</head>
+    <body id="silver-bg">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <script type="text/javascript">main_menu();</script>
+        <div data-role="page" id="pre-menu">
+        <header data-role="header" id="header-wrap">
+            <figure class="top-silver-white"><img src="img/tcs-logo.png"></figure>
+        </header>
+        <main class="white-main-wrap" data-role="main">
+        	  <div class="white-option-cont">
+              	<h2>Select your option:</h2>
+                <ul>
+                	<li>
+                    	<a href="index.html">
+                        	<div class="menu-name">
+                       	    	<img src="img/login-key-ico.svg"> 
+                                Login
+                            </div>
+                            <figure class="menu-arrow"><img src="img/pre-menu-arrow.png" width="16" height="16"></figure>
+                        </a>
+                    </li>
+                    <li>
+                    	<a href="#">
+                        	<div class="menu-name">
+                       	    	<img src="img/add-user-ico.png" class="auto-w-h"> 
+                                New User Guidelines
+                            </div>
+                            <figure class="menu-arrow"><img src="img/pre-menu-arrow.png" width="16" height="16"></figure>
+                        </a>
+                    </li>
+                    <li>
+                    	<a href="#">
+                        	<div class="menu-name">
+                       	    	<img src="img/contact-ico.svg"> 
+                                Contact Us
+                            </div>
+                            <figure class="menu-arrow"><img src="img/pre-menu-arrow.png" width="16" height="16"></figure>
+                        </a>
+                    </li>
+                    <li>
+                    	<a href="#">
+                        	<div class="menu-name">
+                       	    	<img src="img/feedback-ico.svg"> 
+                                Feedback
+                            </div>
+                            <figure class="menu-arrow"><img src="img/pre-menu-arrow.png" width="16" height="16"></figure>
+                        </a>
+                    </li>
+                </ul>
+              </div>      
+        </main>
+        </div>
+    </body>
+</html>

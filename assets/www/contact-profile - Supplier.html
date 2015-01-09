@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Contact Profile</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/base.css">       
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script type="text/javascript" charset="utf-8">
+		var txtc,i;
+		 var SUPCODE, SUPNAME, SUPADD1, CTYCODE, SUPPINC, SUPMOBI, SUPMAIL, SGRCODE, SUPREAD, SUPGRAD, DELETED, SUPLOCK, LTRSENT, LTRRECV, ADDDATE, ADDUSER;
+        var ProfileSelect = window.localStorage.getItem("selected_contact");
+		
+		//alert(ProfileSelect);
+        var keyvalue = window.localStorage.getItem("key2");
+		//alert(keyvalue);
+        var xmlObject;
+                
+        //String to Xml
+        
+        
+        if (window.DOMParser)
+  {
+  parser=new DOMParser();
+  xmlDoc=parser.parseFromString(keyvalue,"text/xml");
+  }
+else // Internet Explorer
+  {
+  xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+  xmlDoc.async=false;
+  xmlDoc.loadXML(keyvalue);
+  }
+       
+       
+         strValue =xmlDoc.getElementsByTagName("UsersListResult");
+							var j=  strValue[0].childNodes[0].nodeValue;
+						j =	j.replace(/<Tags>/, '{"Suplier":[');
+						j =	j.replace(/\<\/Tags>/, ']}');
+						j =	j.replace(/=/g, ':');
+						j =	j.replace(/ /g, '"');
+						j =	j.replace(/,/g, '",');
+						j =	j.replace(/}"/g, '}');
+																		
+						var myObject = eval('(' + j + ')');
+        
+      //alert(SUPCODE);
+
+function SuplierDetail()
+{
+
+var name="";
+var mobile="Mobile : ";
+var office="";
+var email="Email : ";
+var location="Location : ";
+var dob="Date of Birth : ";
+//alert(ProfileSelect);
+           
+		    for(i=0;i<myObject.Suplier.length;i++)
+						 {
+							
+							    if(myObject.Suplier[i].ID==ProfileSelect)
+								 {
+									  
+									name=name + myObject.Suplier[i].Name;
+									mobile=mobile + myObject.Suplier[i].Mobile;
+									email=email + myObject.Suplier[i].Email;
+									//location=location+ myObject.Suplier[i].;
+									 //dob=dob+ ADDDATE[i].childNodes[0].nodeValue;
+								 }
+								 
+								
+						 }
+			   
+					        document.getElementById("Name").innerHTML=name;
+							document.getElementById("Mobile").innerHTML=mobile;
+							document.getElementById("Email").innerHTML=email;
+							//document.getElementById("Location").innerHTML=location;
+							// document.getElementById("Dob").innerHTML=dob;
+
+
+
+}
+
+
+        </script>
+        
+    </head>
+    <body class="contact-profile-bg" onload="SuplierDetail();">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+    <main data-role="main" class="cont-profile-wrap">
+        	<header class="page-header" data-role="heading">
+            	<figure class="back"><a id="go-back"><img src="img/thick-arrow-back.svg"></a></figure>
+                <h3 id="cont">Contact Profile</h3>
+            </header>
+            <div data-role="content" class="contact-profile-cont">
+            	<figure><img src="img/contact-profile-pic1.jpg"></figure>
+                <div class="pro-details">
+                
+                	<h4 id="Name">Name</h4>
+                    <p id="Mobile">Mobile : +1 2345 6789</p>
+                    <p id="Office">Office :  0123 456 7890</p>
+                    <p id="Employee_Id">Employee ID : (only for employee)</p>
+                    <p id="Email">Email : user@domain.com</p>
+                    <p id="Location">Location :  Coimbatore</p>
+                    <p id="Dob">Date of Birth :  11 |  10  |  2014</p>
+                </div>
+                <div class="cont-call-msg">
+                    <div class="cont-call"><a href="calling-screen.html"><img src="img/cont-call-ico.png">Call</a></div>
+                    <div class="cont-msg"><a href="#"><img src="img/cont-msg-ico.png">Message</a></div>
+           		</div>
+        	</div>
+        	
+    </main>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/main.js"></script>    
+    </body>
+</html>

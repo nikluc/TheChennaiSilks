@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>The Chennai Silks - Supplier Login</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/base.css">
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        
+       
+        <script>  
+        
+        //DAta Trancation Starts Here
+    
+        
+       function submit()
+       {
+       
+       document.getElementById('load_img').style.display='inline';	 
+
+       var txt,xx,x,i;
+	   var SECCODE;
+	   var strValue;
+       var username = document.getElementById("username").value;
+       var password = document.getElementById('password').value;
+
+       	var login ='<?xml version="1.0" encoding="utf-8"?> \
+       		<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+       		xmlns:xsd="http://www.w3.org/2001/XMLSchema" \
+       		xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\
+       		  <soap:Body>\
+       			<Login_Chk xmlns="http://tempuri.org/">\
+       			  <data>\
+       				<USERNAME>'+username+'</USERNAME>\
+       				<PASSWORD>'+password+'</PASSWORD>\
+					<TYPE>Supplier</TYPE>\
+				  </data>\
+       			</Login_Chk>\
+       		 </soap:Body>\
+       		</soap:Envelope>'; 
+
+
+       		var xhr = new XMLHttpRequest();		
+       		xhr.open("POST","http://182.72.119.68:8888/TCSService.asmx?op=Login_Chk",true);	
+       	    xhr.setRequestHeader("Content-Type", "text/xml; charset=utf-8");				
+       		xhr.setRequestHeader("Accept", "application/xml", "text/xml", "\*/\*");
+       		xhr.setRequestHeader("SOAPAction", "http://tempuri.org/Login_Chk");	//action_name
+       		xhr.send(login);
+              
+       		xhr.onload = function() {
+       			
+       			if (xhr.status == 200) {
+       			 console.log(JSON.stringify(login));
+       			 	
+       		     var xmlDoc=xhr.responseXML;
+       		     
+       		     var res = xhr.responseText;
+   		         var res =  res.replace('<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><Login_ChkResponse xmlns="http://tempuri.org/" /></soap:Body></soap:Envelope>', "");
+       		
+         				    
+       	         			if(res=="")
+							{
+							document.getElementById('load_img').style.display='none';	 
+								alert("Check Username & password!");
+								
+							}
+							
+							else
+							{
+         	
+         				 var xmlString = (new XMLSerializer()).serializeToString(xmlDoc);
+         	       		 localStorage.setItem("key", xmlString);
+						
+	//===================================Filter Request================================						 
+						 
+						  var CurentUser = document.getElementById("username").value;
+						  SECCODE=xmlDoc.getElementsByTagName("SECCODE");
+						  document.getElementById("username").value = null;
+      				      document.getElementById('password').value = null;
+						  
+						 
+						  
+						  
+						  var UsersList ='<?xml version="1.0" encoding="utf-8"?> \
+       		<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+       		xmlns:xsd="http://www.w3.org/2001/XMLSchema" \
+       		xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\
+       		  <soap:Body>\
+       			<UsersList xmlns="http://tempuri.org/">\
+       			  <data>\
+					<SECCODE>'+SECCODE[0].childNodes[0].nodeValue+'</SECCODE>\
+					<TYPE>Supplier</TYPE>\
+					<FILTER>'+CurentUser+'</FILTER>\
+				  </data>\
+       			 </UsersList>\
+       		 </soap:Body>\
+       		</soap:Envelope>'; 
+
+
+       		var xhr2 = new XMLHttpRequest();		
+       		xhr2.open("POST","http://182.72.119.68:8888/TCSService.asmx?op=UsersList",true);	
+       	    xhr2.setRequestHeader("Content-Type", "text/xml; charset=utf-8");				
+       		xhr2.setRequestHeader("Accept", "application/xml", "text/xml", "\*/\*");
+       		xhr2.setRequestHeader("SOAPAction", "http://tempuri.org/UsersList");	//action_name
+       		xhr2.send(UsersList);
+						  
+						  xhr2.onload = function() {
+						  if (xhr2.status == 200) {
+       			       			 	
+						  
+						  var strDoc=xhr2.responseXML;
+						  
+							strValue =strDoc.getElementsByTagName("UsersListResult");
+							var j=  strValue[0].childNodes[0].nodeValue;
+						j =	j.replace(/<Tags>/, '{"Suplier":[');
+						j =	j.replace(/\<\/Tags>/, ']}');
+						j =	j.replace(/=/g, ':');
+						j =	j.replace(/ /g, '"');
+						j =	j.replace(/,/g, '",');
+						//alert(j);
+						var myObject = eval('(' + j + ')');
+						
+						var CurentUserID = myObject.Suplier[0].ID;
+						var CurentUserName = myObject.Suplier[0].Name;
+						
+						localStorage.setItem("userid", CurentUserID);
+						localStorage.setItem("username", CurentUserName);
+						
+						
+						  
+						  }
+						  }
+						
+  //======================================================================================
+         	       document.getElementById('load_img').style.display='none';
+						
+         	       		//alert(CurentUserID);
+         	       		 window.location="main-menu.html";
+		}
+         				
+       		 
+       				
+       	       		
+       			} else {
+       			document.getElementById('load_img').style.display='none';
+       			
+				
+       				alert("Error! Login Error");
+       			}
+       		};
+       		xhr.onerror = function() {
+       		document.getElementById('load_img').style.display='none';
+       			alert("Error! Login failed. Can not connect to server.");
+       		};
+       }
+
+       //DAta Trancation End Here
+       
+       
+       function redirectToIndexPage()
+       
+       {
+       
+       window.location="index.html";
+       
+       }
+       
+       
+       </script>
+        
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <main class="employee-login" role="main">
+        	<figure>
+       	    	<img src="img/logo.png" alt="Logo">
+            </figure>
+            <h3>Supplier Login</h3>
+            <input id="username" type="text" value="" placeholder="yourname...">
+            <input id="password" type="password" value="" placeholder="password..." >
+              <div align="center" id="load_img" style="display:none";>
+            <img src="img/loader.gif" alt="loader" >
+            </div>
+            <div><a href="#" class="forgot-pass">Forgot Password?</a></div>
+            <input type="submit" value="Login" onClick="submit();" > <input  type="button" value="Cancel" onclick="redirectToIndexPage();"  >
+        </main>		
+        <script src="js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>

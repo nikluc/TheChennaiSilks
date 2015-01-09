@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Upload LR Copy</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/base.css">       
+        <link rel="stylesheet" href="css/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="css/custom-dropdown.css" />
+        <link rel="stylesheet" type="text/css" href="slick-carousel/slick.css"/>
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+         <script src="js/cordova.js"></script>
+        <noscript><link rel="stylesheet" type="text/css" href="css/noJS.css" /></noscript>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-ui.js"></script>         
+        <script src="js/plugins.js"></script>
+        <script src="js/jquery.noty.packaged.min.js"></script>
+        <script src="js/jquery.noty.packaged.js"></script>
+       
+        <script>		
+		/*Datepicker initialisation*/
+		$(function() {
+			$( "#datepicker" ).datepicker({
+				dateFormat: 'dd-mm-yy',
+			showOn: "button",
+			buttonImage: "img/lr-upload-date.png",
+			buttonImageOnly: true,
+			buttonText: "Select date"
+			});
+			});
+		</script>
+		
+		    <script type="text/javascript" charset="utf-8">
+			var pjNo;
+     		var myurl, mysrc, InvoiceNo="";
+			var id;
+			var InvoiceNo = window.localStorage.getItem("In");
+			var pjv= window.localStorage.getItem("pjv");
+			if(InvoiceNo!=""&&pjv!="")
+			
+			{
+				
+				id=InvoiceNo;
+				InvoiceNo="";
+				pjvNo=parseInt(pjv);
+				
+				pjv="";
+				InvoiceNo="";
+				
+			}
+   
+//Photo Select Start Here
+
+            var pictureSource;   // picture source
+            var destinationType; // sets the format of returned value
+            
+            // Wait for device API libraries to load
+            //
+            document.addEventListener("deviceready",onDeviceReady,false);
+
+            // device APIs are available
+            //
+            function onDeviceReady() {
+                pictureSource=navigator.camera.PictureSourceType;
+                destinationType=navigator.camera.DestinationType;
+               
+               
+            
+            }
+
+            var canvas,context,width,height;
+
+            // Called when a photo is successfully retrieved
+            //
+            function onPhotoURISuccess(imageURI) {
+              
+              
+                var largeImage = document.getElementById('largeImage');
+                largeImage.style.display = 'block';
+                largeImage.src = imageURI;
+                mysrc=largeImage.src;
+              
+    
+	
+	//===========Canvas=================
+	 //Canvas Script
+ 
+	
+	canvas = document.createElement('canvas');
+	canvas.id     = "CursorLayer";
+	canvas.width  = 600;
+	canvas.height = 400;
+      	context = canvas.getContext('2d');
+		width = 600;
+		height = 400; 
+      	var imageObj = new Image();
+     	imageObj.src = mysrc;
+     	imageObj.onload = function() {
+     context.drawImage(imageObj, 0, 0, width, height);
+        myurl = canvas.toDataURL();
+	    myurl=myurl.replace(/^data:image\/(png|jpg);base64,/, "");
+		
+	    							};
+//=======================================
+      	  
+	    							}
+
+       function getPhoto(source) {
+    	     
+    	   
+    	   
+    	      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
+    	        destinationType: destinationType.FILE_URI,
+    	        sourceType: source });
+    	      
+    	       //document.getElementById('upload_id').style.visibility='hidden';
+
+    	       
+    	    }
+    	   
+            // Called if something bad happens.
+            //
+            function onFail(message) {
+                alert('Failed because: ' + message);
+            }
+
+            
+            
+           
+            
+            
+  //DAta Trancation Starts Here
+  
+  var Notificatio="";
+  
+function mysubmit()
+{
+	
+		 
+	
+	
+	
+	
+	
+	
+	 pjNo = document.getElementById("pjv").value;
+	var dropDownTest;
+	var transport = document.getElementById('span_id').innerHTML;
+	
+	//var acYear = document.getElementById("ac_Year").value;
+	var lrNo = document.getElementById("lr_No").value;
+	var imageFile = myurl;
+	var uploadedOn = document.getElementById("datepicker").value;
+	var bundles = document.getElementById("bundles").value;
+
+ 
+ //=========================
+ var img = document.getElementById('largeImage').src;
+ //alert(img);
+ var n = img.indexOf("upload-img.jpg"); 
+  if( n >0 )
+  {
+	//alert("Please select an Image");  
+
+
+//==========Noty===========	
+ $.noty.defaults.killer = true;
+
+Notification="Please select an Image";
+
+
+noty({
+   text: Notification,
+   layout: 'top',
+   //closeWith: ['click', 'hover'],
+   timeout: 500,
+   type: 'error'
+ });
+	document.getElementById('pjv').focus();
+	return;
+  }
+ else if(pjNo=="")
+  {
+	//alert("Please incert PJV NO"); 
+	
+	
+
+//==========Noty===========	
+ $.noty.defaults.killer = true;
+
+Notification="Please incert PJV NO";
+
+
+ noty({
+   text: Notification,
+   layout: 'top',
+   //closeWith: ['click', 'hover'],
+   timeout: 500,
+   type: 'error'
+  });
+	document.getElementById('pjv').focus();
+	return; 
+  }
+ else if(transport=="Select Transport")
+  {
+	//alert("Please Select Transport"); 
+	
+	
+//==========Noty===========	
+ $.noty.defaults.killer = true;
+
+Notification="Please Select Transport";
+
+
+noty({
+   text: Notification,
+   layout: 'top',
+   //closeWith: ['click', 'hover'],
+   timeout: 500,
+   type: 'error'
+   });
+	document.getElementById('span_id').focus(); 
+	return;
+  }
+  
+ else if(lrNo=="")
+  {
+	//alert("Please incert LR Number");
+	
+	//==========Noty===========	
+ $.noty.defaults.killer = true;
+
+	Notification="Please incert LR Number";
+
+
+noty({
+   text: Notification,
+   layout: 'top',
+   //closeWith: ['click', 'hover'],
+   timeout: 500,
+   type: 'error'
+   });
+	document.getElementById('lr_No').focus(); 
+	return; 
+  }
+ else if(uploadedOn=="")
+  {
+	//alert("Please select Booking Date"); 
+	
+	//==========Noty===========	
+ $.noty.defaults.killer = true;
+	
+	Notification="Please select Booking Date";
+
+
+noty({
+   text: Notification,
+   layout: 'top',
+   //closeWith: ['click', 'hover'],
+   timeout: 500,
+   type: 'error'
+   
+}); 
+	document.getElementById('datepicker').focus();
+	return;
+  }
+ else if(bundles=="")
+  {
+	//alert("Please Incert Bundels");  
+	
+	//==========Noty===========	
+ $.noty.defaults.killer = true;
+	
+	Notification="Please Incert Bundels";
+
+
+noty({
+   text: Notification,
+   layout: 'top',
+   //closeWith: ['click', 'hover'],
+   timeout: 500,
+   type: 'error'
+   }); 
+	document.getElementById('bundles').focus();
+	return;
+  }
+
+
+
+  else
+  {
+ 
+ document.getElementById('load_img').style.display='inline';
+ 
+ //validation();
+
+var sr ='<?xml version="1.0" encoding="utf-8"?> \
+	<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" \
+	xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\
+	  <soap:Body>\
+		<LREntryData xmlns="http://tempuri.org/">\
+		  <data>\
+		    <ID>'+id+'</ID>\<PURYEAR>2014-15</PURYEAR>\
+			<PURCONO>'+pjNo+'</PURCONO>\
+			<TRNCODE>1</TRNCODE>\
+			<LORNUMB>'+lrNo+'</LORNUMB>\
+			<LORBUND>'+bundles+'</LORBUND>\
+			<LORDATE>'+uploadedOn+'</LORDATE>\
+			<LORPAID>Y</LORPAID>\
+			<LORWGHT>10</LORWGHT>\
+			<LORAMNT>12.00</LORAMNT>\
+			<ADDUSER>2</ADDUSER>\
+			<LORPHOTIMAGE>' +imageFile+ '</LORPHOTIMAGE>\
+		  </data>\
+		</LREntryData>\
+	 </soap:Body>\
+	</soap:Envelope>';
+
+
+
+	
+	  var xhr = new XMLHttpRequest();  
+	  xhr.open("POST","http://182.72.119.68:8888/TCSService.asmx?op=LREntryData",true); 
+	     xhr.setRequestHeader("Content-Type", "text/xml; charset=utf-8");    
+	  xhr.setRequestHeader("Accept", "application/xml", "text/xml", "\*/\*");
+	  xhr.setRequestHeader("SOAPAction", "http://tempuri.org/LREntryData"); //action_name
+	  xhr.send(sr);
+
+	  xhr.onload = function() {
+	   if (xhr.status == 200) {
+	    console.log(JSON.stringify(sr));
+	    document.getElementById('load_img').style.display='none';
+	   
+	    		
+
+alert("Sucess! Upload completed");
+
+
+	    
+	    document.getElementById('pjv').value=null;
+	    document.getElementById('lr_No').value=null;
+	    document.getElementById('datepicker').value=null;
+	    document.getElementById('bundles').value=null;
+	    document.getElementById('largeImage').value=null;
+
+	    imageFile = null;
+
+	    document.getElementById('largeImage').src="img/upload-img.jpg";	
+	    
+		window.location="lr-record-view.html";
+	    
+	   } else {
+	   document.getElementById('load_img').style.display='none';
+	    alert("Error! Upload failed");
+	    console.log(sr);
+	    
+	   }
+	  };
+	  xhr.onerror = function() {
+		  document.getElementById('load_img').style.display='none';
+	   alert("Error! Upload failed. Can not connect to server.");
+	  };
+	  
+  }
+	}
+
+
+//DAta Trancation End Here
+            
+        </script>
+		
+		
+		
+		
+		
+    </head>
+    <body class="grey-bg">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <main class="lr-copy-upload" role="main">
+        	<header class="lr-copy-upload-header" data-role="heading">
+            	<figure class="back"><a id="go-back"><img src="img/thick-arrow-back.svg"></a></figure>
+                <h3>Upload LR Copy</h3>
+            </header>
+           	<div class="lr-form" role="application">
+            	<div>
+                	<label>PJV Year</label>
+                    <div class="slider single-item">
+                        <div>2014 - 2015</div>
+                        <div>2015 - 2016</div>
+                        <div>2016 - 2017</div>
+					</div>  
+                </div>
+            	<div class="po-no">
+                	<label>PJV Number</label>
+                    
+                    <input type="number" id="pjv">
+                     
+                    <div class="wrapper-demo">
+					<div id="dd" class="wrapper-dropdown-3">
+						<span id="span_id">Select Transport</span>
+						<ul class="dropdown">
+                        	<li><a href="#">Select Transport</a></li>
+							<li><a href="#">KRS -TRANSPORT</a></li>
+							<li><a href="#">GATI</a></li>
+							<li><a href="#">KPN</a></li>
+							<li><a href="#">TPC</a></li>
+						</ul>
+					</div>
+				​</div>
+                </div>
+                <div>
+                	<label>LR Number</label>
+                    <input type="text" id="lr_No">
+                </div>
+                <div class="lr-image-upload">
+                	<label>Upload LR image</label>
+                    <figure>
+                    	<img src="img/upload-img.jpg" id="largeImage" />
+                        <a href="#" class="upload-btn" onclick="getPhoto(pictureSource.PHOTOLIBRARY);">Upload</a>
+                        <a href="#" class="upload-btn" onclick="getPhoto(pictureSource.CAMERA);">Take Photo</a>
+                    </figure>
+                </div>
+                
+                 <div align="center" id="load_img" style="display:none";>
+                <img src="img/loader.gif" alt="loader" >
+             
+                </div>
+                <div>
+                    <div class="booking-date">
+                        <label>Select date of booking</label>
+                        <input type="text" id="datepicker" readonly>
+                    </div>
+                    <div class="no-of-bundle">
+                        <label>No of bundles</label>
+                        <input type="number" id="bundles">
+                    </div>
+                </div>
+                
+                <input type="submit" value="Save Details" class="save-btn"  onclick=" mysubmit();">
+            </div>
+        </main>
+  <script src="js/main.js"></script>
+ 
+ 
+    </body>
+   </html>
+   <script>
+                document.getElementById("pjv").value=pjvNo;
+	            document.getElementById("pjv").disabled = true;
+   </script>
+     
+      
+</html>

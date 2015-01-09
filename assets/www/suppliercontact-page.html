@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Contact List</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/jquery.sidr.dark.css">    
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        <script type="text/javascript">
+		$(document).bind("mobileinit", function () {
+			$.mobile.ajaxEnabled = false;
+		});
+		</script>        
+        <script src="js/jquery.mobile-1.4.5.js"></script>        
+
+        <script src="js/common.js"></script>
+        
+        
+        <script>
+        function supplierLogout()
+{
+
+
+window.location="index.html";
+
+}
+        
+        
+        </script>
+        
+</head>
+    <body class="white-bg">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <script type="text/javascript">main_menuSupplier();</script>
+        <header data-role="header" id="header-wrap">
+            <div class="menu-header">
+                <div class="main-menu" id="simple-menu" href="#sidr">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                <nav class="slide-menu">
+                    <ul id="slide-menu-list">
+                       <!-- <li>
+                          <a href="#">
+                          <img src="img/supplier-ico.png">
+                          <figcaption>Supplier</figcaption>
+                          </a>
+                        </li>-->
+                        <li>
+                            <a href="suppliercontact-page.html">
+                            <img src="img/employee-ico-h.png">
+                            <figcaption class="menu-act">Employee</figcaption>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="groupchat - Supplier.html">
+                            <img src="img/gchat-ico.png">
+                            <figcaption>Group Chat</figcaption>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <img src="img/group-sms.png">
+                            <figcaption>Group SMS</figcaption>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                </div>
+            <div class="search-cont" data-role="search">
+               <input type="text" value="" placeholder="Suppliers, Employess, Contact No, ID, Location...">
+            </div>
+        </header>
+        <main class="contact-list-area" data-role="page" id="contactlist">
+        	<ul id="cont">
+            
+            
+              <script type="text/javascript" charset="utf-8">
+			  
+		var txtc,i,x,contact;
+		var me = window.localStorage.getItem("userid");
+		var EMPCODE, EMPNAME;
+	//var SUPADD1, CTYCODE, SUPPINC, SUPMOBI, SUPMAIL, SGRCODE, SUPREAD, SUPGRAD, DELETED, SUPLOCK, LTRSENT, LTRRECV, ADDDATE, ADDUSER;
+   
+        var keyvalue = window.localStorage.getItem("key");
+        var xmlObject;
+                
+        //String to Xml
+	              
+        if (window.DOMParser)
+  {
+  parser=new DOMParser();
+  xmlDoc=parser.parseFromString(keyvalue,"text/xml");
+  }
+else // Internet Explorer
+  {
+  xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+  xmlDoc.async=false;
+  xmlDoc.loadXML(keyvalue);
+  }
+       
+       
+        
+        EMPCODE=xmlDoc.getElementsByTagName("EMPCODE");
+        EMPNAME=xmlDoc.getElementsByTagName("EMPNAME");
+     
+jQuery.expr[':'].contains = function(a, i, m) {
+  return jQuery(a).text().toUpperCase()
+      .indexOf(m[3].toUpperCase()) >= 0;
+};
+
+
+$("#box").on("keyup", function() {
+    var srchTerm = $(this).val(), 
+        $rows = $("#cont").children("li");
+		 $("#box").attr('value', srchTerm);
+    if (srchTerm.length > 0) {
+		
+        $rows.stop().hide();
+		$("#cont").find("li:contains('"+srchTerm+"')").stop().show();
+		
+    } else {
+        $rows.stop().show();
+    }   
+});
+
+
+txtc="";
+contact="";
+
+var htm_txt="";
+				
+          for (i=0;i<EMPNAME.length;i++)
+             {	
+        	  
+        	     contact += '#contact'+i;
+                 
+                 if(EMPNAME.length>0 && i!= EMPNAME.length-1)
+                    { 
+                 contact +=", ";
+                    }
+			 
+        	  
+htm_txt += '<li class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content">';
+htm_txt += '<div class="cont-wrap" ';
+htm_txt += 'id="'+ 'contact'+ i + '">';
+htm_txt += '<figure class="contact-profile-pic">';
+htm_txt += '<img src="img/contact-profile-pic1.jpg" ></figure>';
+htm_txt +='<figcaption>';
+htm_txt +='<div class="contact-name" id="con"><a href="#">'+ EMPNAME[i].childNodes[0].nodeValue+'</a></div>';
+htm_txt +='<div class="contact-type">Employee</div>';
+htm_txt +='</figcaption>';
+htm_txt +='<figure class="contact-info"><img src="img/contact-info.png" width="18" height="18" id="'+EMPCODE[i].childNodes[0].nodeValue+'" onClick="info(this.id);"></figure></div>';
+htm_txt +='<div class="comm-opt">';
+htm_txt +='<a class="comm-menu" href="#" id="'+EMPCODE[i].childNodes[0].nodeValue+'" onClick="msg(this.id);"><img src="img/call-icon.png" >';
+htm_txt +='<div>Call</div></a>';
+htm_txt += '<a class="comm-menu" href="#" id="'+EMPCODE[i].childNodes[0].nodeValue+'" onClick="msg(this.id);"><img src="img/msg-icon.png">'; 
+htm_txt += '<div >Message</div></a>';
+htm_txt += '<a class="comm-menu" href="#" id="'+EMPCODE[i].childNodes[0].nodeValue+'" onClick="msg(this.id);"><img src="img/mail-at-icon.png">'; 
+htm_txt += '<div>Mail</div></a>';
+htm_txt += '</div>';
+htm_txt += '</li>';
+
+
+						                          
+             }
+			  txtc += htm_txt;
+           document.getElementById("cont").innerHTML=txtc;
+
+
+            function info(info_id)
+            {
+               //alert(info_id);
+            	
+            	x=info_id;
+            	localStorage.setItem("selected_contact", x);
+            	window.location="contact-profile.html";
+				
+				
+            	
+            }
+            function call(call_id)
+            {
+               //alert(info_id);
+            	
+            	x=call_id;
+            	localStorage.setItem("selected_contact", x);
+            	window.location="calling-screen.html";
+            	
+            	
+            }
+            function msg(msg_id)
+            {
+              
+            	
+           	var x=msg_id.toString(); 
+           
+            	localStorage.setItem("selected_contact", x);
+            	//alert("value: " +x);
+            	window.location="chatarea.html";
+            	
+            	
+            }
+
+            function mail(mail_id)
+            {
+               //alert(clicked_id);
+            	
+            	x=mail_id;
+            	localStorage.setItem("selected_contact", x);
+            	window.location="inbox.html";
+            	
+            }
+
+function employeeLogout()
+{
+
+txtc = "";
+window.location="index.html";
+
+}
+
+        </script>   
+            </ul>        
+        </main>
+    </body>
+</html>

@@ -1,0 +1,29 @@
+@mixin placeholder($pl-sty)
+{
+  
+  ::-webkit-input-placeholder
+  {
+    font-style:$pl-sty;
+  }
+  
+  :-moz-placeholder 
+  {
+    font-style:$pl-sty;  
+  } 
+   
+  ::-moz-placeholder
+  {
+    font-style:$pl-sty;
+  }
+  
+  :-ms-input-placeholder
+  {
+    font-style:$pl-sty;
+  }  
+}
+
+@mixin link($link-color, $txt-decor)
+{
+  color:$link-color;
+  text-decoration:$txt-decor;
+}

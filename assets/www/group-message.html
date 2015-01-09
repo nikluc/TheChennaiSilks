@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Contact List</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/jquery.sidr.dark.css">    
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="js/jquery.min.js"></script> 
+        <script src="js/jquery-ui.js"></script>              
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/common.js"></script>
+</head>
+    <body class="white-bg">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <script type="text/javascript">main_menu();</script>
+        <header data-role="header" id="header-wrap">
+            <div class="menu-header">
+                <div class="main-menu" id="simple-menu" href="#sidr">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                <nav class="slide-menu">
+                    <ul>
+                        <li>
+                          <a href="#">
+                          <img src="img/supplier-ico.png">
+                          <figcaption>Supplier</figcaption>
+                          </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <img src="img/employee-ico.png">
+                            <figcaption>Employee</figcaption>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <img src="img/gchat-ico.png">
+                            <figcaption>Group Chat</figcaption>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <img src="img/group-sms-act.png">
+                            <figcaption class="menu-act">Group SMS</figcaption>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                </div>
+            <div class="search-cont" data-role="search">
+               <input type="text" value="" placeholder="Suppliers, Employess, Contact No, ID, Location...">
+            </div>
+        </header>
+        
+        <main class="group-message-wrap" data-role="page" id="groupmessage">
+        	 <div class="group-message">
+                 <h2>Group Message</h2>
+                 <input type="text" value="" placeholder="add more than 1 recipient(s)" >
+                 <textarea placeholder="Enter your Broadcast Message here..."></textarea>
+                 <button class="send-message-btn">Send Message</button>
+             </div>
+        </main>
+
+    </body>
+</html>

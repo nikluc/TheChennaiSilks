@@ -1,0 +1,52 @@
+.y-btn{ border-radius:5px; background:#b3a960; color:$white; padding:4px 10px 8px; text-decoration:none; }
+.page-header
+{
+	color:#fff;
+	padding:10% 1%;
+	float:left;
+	text-align:center;
+	width:100%;
+	position:relative;
+
+	.back
+	{
+		height:auto;    
+		left:4%;
+		margin-left:-3%;
+		margin-top:-13px;
+		position:absolute;
+		top:50%;
+		width:23px;
+		a
+		{
+		cursor:pointer;
+		display:block;
+		}
+		img
+		{
+		 width:100%;
+		}
+	}
+
+	
+	h3
+	{
+		font-size:16px;
+		font-weight:400;
+		margin:0;
+		padding:0;
+		height:auto;
+		width:auto;
+		margin-left:-55px;
+		margin-top:-10px;
+		position:absolute;
+		top:50%;
+		left:50%;
+	}
+}
+.row
+{
+  float:left;
+  width:100%;
+  clear:both;
+}

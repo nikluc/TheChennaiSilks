@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Inbox</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/base.css">       
+        <link rel="stylesheet" href="css/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="css/tabcontent.css" />
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <noscript><link rel="stylesheet" type="text/css" href="css/noJS.css" /></noscript>
+        <script src="js/jquery.min.js"></script> 
+        <script src="js/jquery-ui.js"></script>               
+        <script src="js/plugins.js"></script>
+        <script>		
+		/*Datepicker initialisation*/
+		$(function() {
+					$( "#datepicker" ).datepicker({
+					showOn: "button",
+					buttonImage: "img/sent-calendar-ico.png",
+					buttonImageOnly: true,
+					buttonText: "Select date"
+					});
+					});
+		$(function() {
+					$( "#datepicker2" ).datepicker({
+					showOn: "button",
+					buttonImage: "img/sent-calendar-ico.png",
+					buttonImageOnly: true,
+					buttonText: "Select date"
+					});
+					});
+		</script>
+		<script type="text/javascript" src="js/tabcontent.js"></script>
+    </head>
+    <body class="grey-bg" style="overflow:hidden;">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <main role="main">
+   			<div id="header-wrap" data-role="heading">
+                <header class="sent-header">
+                    <figure class="back"><a id="go-back"><img src="img/thick-arrow-back.svg"></a></figure>
+                    <h3>Sent Items</h3>
+                </header>
+                <div class="sent-filter">
+                    <div class="filter-wrap">
+                        <div class="filter-date">
+                            From : <input type="hidden" id="datepicker">
+                        </div>
+                        <div class="filter-date">
+                            To :  <input type="hidden" id="datepicker2">
+                        </div>
+                        <div class="select-date">
+                            <select>
+                                <option>Supplier</option>
+                                <option>Employees</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs-wrap">
+                    <ul id="countrytabs" class="shadetabs">
+                        <li><a href="#" rel="email" class="selected">Email</a></li>
+                        <li><a href="#" rel="group_msg">Group Message</a></li>
+                        <li><a href="#" rel="msgs">Messages</a></li>
+					</ul>
+                </div>
+            </div>
+            <div class="sent-area" role="application" id="sent_details">
+				<div id="email" class="tabcontent">
+					<ul>
+                	<li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic1.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Subject of the mail...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic2.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Subject of the mail...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic3.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Subject of the mail...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic4.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Subject of the mail...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+				<li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic1.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Subject of the mail...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic2.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Subject of the mail...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic3.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Subject of the mail...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic4.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Subject of the mail...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                </ul>
+</div>
+
+<div id="group_msg" class="tabcontent">
+					<ul>
+                	<li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic1.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Chris Evans, Andr... more</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic2.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Andrew, Glen, Chr... more</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic3.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Chris Evans, Andr... more</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic4.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Chris Evans, Andr... more</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+				<li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic1.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Chris Evans, Andr... more</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic2.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Chris Evans, Andr... more</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic3.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Chris Evans, Andr... more</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic4.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Chris Evans, Andr... more</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                </ul>
+</div>
+
+<div id="msgs" class="tabcontent">
+					<ul>
+                	<li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic1.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic2.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic3.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic4.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+				<li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic1.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic2.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic3.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                <li>
+                        <a href="#">
+                            <div class="log-wrap">
+                                <figure><img src="img/contact-profile-pic4.jpg"></figure>
+                                <figcaption>
+                                    <div class="person-name">Person Name</div>
+                                    <div class="mem-type">Few words from first line...</div>
+                                </figcaption>
+                                <div class="action">
+                                    <button><img src="img/forward-ico.png"></button> <button><img src="img/delete-ico.png"></button>
+                                </div>
+                            </div>
+                        </a>
+                </li>
+                </ul>
+</div>
+
+</div>
+        </main>
+        <script src="js/main.js"></script>
+        <script type="text/javascript">
+
+var countries=new ddtabcontent("countrytabs")
+countries.setpersist(true)
+countries.setselectedClassTarget("link") //"link" or "linkparent"
+countries.init()
+
+</script>
+    </body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>LR Report View</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+       
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/jquery.sidr.dark.css">    
+        <link rel="stylesheet" href="css/tabcontent-lr.css">
+        <link rel="stylesheet" type="text/css" href="css/shadowbox.css"> 
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script type="text/javascript">
+		$(document).bind("mobileinit", function () {
+			$.mobile.ajaxEnabled = false;
+		});
+		</script>
+        
+        <script src="js/tabcontent-lr.js"></script>        
+        <script src="js/plugins.js"></script>      
+        <script src="js/jquery.mobile-1.4.5.js"></script>        
+        <script src="js/common.js"></script>
+</head>
+    <body id="silver-bg" onload="Incompleted();" >
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here --> 
+             
+        <div data-role="page" id="pre-menu">
+        <header data-role="header" id="header-wrap">
+            <figure class="top-silver-white">
+            	<a id="go-back" class="blue-back"><img src="img/thick-arrow-blue.svg"></a>
+                <img src="img/tcs-logo-peacock.png">Upload LR
+              	<div class="top-right-icons"><a href="main-menu.html"><img src="img/home-ico.png"></a><a href="#" onclick="supplierLogout();"><img src="img/logout-ico.png" onclick="supplierLogout();"></a></div>
+            </figure>
+        </header>
+        <main class="lr-view-wrap" data-role="main">        	                        
+            <div class="row" id="lr-view-filter-cont">
+                <div class="row lr-filter-tab-cont">
+            	<ul id="countrytabs" class="shadetabs">
+                <li onclick="completed();"><a href="#" rel="country1" class="selected">COMPLETED</a></li>
+                <li onclick="Incompleted();"><a href="#" rel="country2" >PENDING</a></li>
+                </ul>
+            </div>
+                <div class="search-cont" data-role="search">
+                   <input type="text" id="box" value="" placeholder="Search LR Number, Invoice Number, LR Date...">
+                   
+                         
+                </div>
+            </div>
+            <div class="lr-view-cont">
+                <div id="country1" class="tabcontent">
+               
+                    <ul id="LR">
+              
+                
+<script>
+					
+					
+
+var Invoice, BRANCH, PJVYear, LRNO, PJVNO, NOBUN, LRDate;
+var lrTxt="";
+var i;
+var mysrc, myurl;
+function completed()
+{
+    
+             	 var lr ='<?xml version="1.0" encoding="utf-8"?> \
+	<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" \
+	xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\
+	  <soap:Body>\
+		 <BindCompleteLRDetailsResponse xmlns="http://tempuri.org/">\
+      <BindCompleteLRDetailsResult>\
+        <spBindCompleteDetails>\
+          <Invoice>int</Invoice>\
+          <BRANCH>string</BRANCH>\
+          <PJVYear>string</PJVYear>\
+          <LRNO>string</LRNO>\
+          <PJVNO>int</PJVNO>\
+          <NOBUN>int</NOBUN>\
+          <IMG>string</IMG>\
+          <LRDate>dateTime</LRDate>\
+        </spBindCompleteDetails>\
+		</BindCompleteLRDetailsResult>\
+    </BindCompleteLRDetailsResponse>\
+	 </soap:Body>\
+	</soap:Envelope>';
+
+
+
+
+
+	
+	  var xhr = new XMLHttpRequest();  
+	  xhr.open("POST","http://182.72.119.68:8888/TCSService.asmx?op=BindCompleteLRDetails",true); 
+	     xhr.setRequestHeader("Content-Type", "text/xml; charset=utf-8");    
+	  xhr.setRequestHeader("Accept", "application/xml", "text/xml", "\*/\*");
+	  xhr.setRequestHeader("SOAPAction", "http://tempuri.org/BindCompleteLRDetails"); //action_name
+	  xhr.send(lr);
+	  
+           
+				//alert(xhr.responseXML);	
+				
+				 xhr.onload = function() {
+	   if (xhr.status == 200) {	
+			console.log(JSON.stringify(lr));
+			
+			
+			var lrdoc=xhr.responseXML;
+			
+	          
+				
+				 
+        Invoice=lrdoc.getElementsByTagName("Invoice");
+        BRANCH=lrdoc.getElementsByTagName("BRANCH");
+        PJVYear=lrdoc.getElementsByTagName("PJVYear");
+        LRNO=lrdoc.getElementsByTagName("LRNO");
+        PJVNO=lrdoc.getElementsByTagName("PJVNO");
+        NOBUN=lrdoc.getElementsByTagName("NOBUN");
+        LRDate=lrdoc.getElementsByTagName("LRDate");
+		IMG=lrdoc.getElementsByTagName("IMG");
+		
+		
+		var htm_txt;
+
+		
+        for (i=0;i<Invoice.length;i++)
+             {	
+           
+		   IMG[i].childNodes[0].nodeValue=IMG[i].childNodes[0].nodeValue.replace(/[\s\S]+\\/, "http://182.72.119.68:8888/Image/");
+		 //  alert(IMG[i].childNodes[0].nodeValue);
+		   
+		   var lrFormatDate= LRDate[i].childNodes[0].nodeValue.replace(/\T[\s\S]+/, "");
+		   lrFormatYear = lrFormatDate.replace(/\-[\s\S]+/, "");
+		   lrFormatMonth = lrFormatDate.replace(/\d{4}\-/, "");
+		   lrFormatMonth = lrFormatMonth.replace(/\-[\s\S]+/, "");
+		  lrFormatDay=lrFormatDate.replace(/[\s\S]+\-/, "");
+		  lrFormatDate = lrFormatDay+"-"+lrFormatMonth+"-"+lrFormatYear;
+		   //alert(lrFormatDate);
+		   
+					
+	htm_txt += '				<li>';
+	htm_txt += '							<div class="lr-list-head">';
+	htm_txt += '								<span class="left-item">Invoice No : '+Invoice[i].childNodes[0].nodeValue+'</span>';
+	htm_txt += '								<span class="right-item">BRANCH : '+BRANCH[i].childNodes[0].nodeValue+'</span>';
+	htm_txt += '							</div>';
+	htm_txt += '							<div class="list-row">';
+	htm_txt += '								<span class="left-item">PJV Year: '+PJVYear[i].childNodes[0].nodeValue+'</span>';
+	htm_txt += '								<span class="right-item">PJV No: '+PJVNO[i].childNodes[0].nodeValue+'</span>';
+	htm_txt += '							</div>';
+	htm_txt += '							<div class="list-row">';
+	htm_txt += '								<span class="left-item">LR Date : '+lrFormatDate+'</span>';
+	htm_txt += '								<span class="right-item">No of Bundle : '+NOBUN[i].childNodes[0].nodeValue+'</span>';
+	htm_txt += '							</div>';
+	htm_txt += '							<div class="list-row">';
+	htm_txt += '<span class="left-item lr-no">LR NO : <strong>'+LRNO[i].childNodes[0].nodeValue+'</strong></span>';
+    htm_txt += '<a href="#" class="right-item lr-action-btn"  onClick="img('+i+');">View image</a>';
+	htm_txt += '      <div class="lr-image-view-wrap">';
+    htm_txt += '     <img src="'+IMG[i].childNodes[0].nodeValue+'" style="display:none"; id="'+i+'">';
+    htm_txt += '       </div>';
+//htm_txt += ' <img class="right-item" src="'+IMG[i].childNodes[0].nodeValue+'" hight="75" width="150" style="display:none"; id="'+i+'"></img>';												
+	htm_txt += '							</div>';
+	htm_txt += '						</li>';
+						
+						
+		
+			 }
+			 lrTxt=htm_txt;
+		
+		
+			 document.getElementById("LR").innerHTML=lrTxt;
+			  
+	   
+	   }
+				 }
+}
+
+
+
+
+
+
+function img(imgId)
+
+{
+	var st = document.getElementById(''+imgId+'').style.display;
+//alert(st);
+	if(st=="none")
+	{
+	document.getElementById(''+imgId+'').style.display="inline";
+	}
+	if(st=="inline")
+	{
+	document.getElementById(''+imgId+'').style.display="none"
+	}
+}
+
+
+
+
+var LRIncTxt="";
+var ARRY_PJVNO=[];
+var ARRY_InvoiceNo=[];
+
+
+function Incompleted()
+{
+
+
+					
+					
+										 
+					 var lrInc ='<?xml version="1.0" encoding="utf-8"?> \
+	<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" \
+	xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\
+	  <soap:Body>\
+		  <BindIncompleteLRDetailsResponse xmlns="http://tempuri.org/">\
+      <BindIncompleteLRDetailsResult>\
+        <string>string</string>\
+        <string>string</string>\
+      </BindIncompleteLRDetailsResult>\
+    </BindIncompleteLRDetailsResponse>\
+	 </soap:Body>\
+	</soap:Envelope>';
+
+
+
+
+
+	
+	  var xhr = new XMLHttpRequest();  
+	  xhr.open("POST","http://182.72.119.68:8888/TCSService.asmx?op=BindIncompleteLRDetails",true); 
+	     xhr.setRequestHeader("Content-Type", "text/xml; charset=utf-8");    
+	  xhr.setRequestHeader("Accept", "application/xml", "text/xml", "\*/\*");
+	  xhr.setRequestHeader("SOAPAction", "http://tempuri.org/BindIncompleteLRDetails"); //action_name
+	  xhr.send(lrInc);
+	            
+				
+		 xhr.onload = function() {
+	   if (xhr.status == 200) {	
+					
+				console.log(JSON.stringify(lrInc));
+				  //alert(xhr.responseXML);	
+       			 	
+       		   var lrIncdoc=xhr.responseXML;
+	
+	     //      alert(lrdoc);
+				
+				 
+      var string =lrIncdoc.getElementsByTagName("string");
+				
+				
+				var htm_txt_lrIncStr;
+				var IncInvoiceNo, IncBRANCH;
+				
+				for (i=0;i<string.length;i++)
+             {	
+			 
+			IncInvoiceNo = string[i].childNodes[0].nodeValue.replace(/\,[\s\S]+/g, ""); 
+			IncInvoiceNo = IncInvoiceNo.replace(/[\s\S]+\=/g, ""); 
+			//alert("IncInvoiceNo: "+IncInvoiceNo);
+			IncBRANCH = string[i].childNodes[0].nodeValue.replace(/[\s\S]+\Branch\s+\=\s+/g, "");
+			IncBRANCH =IncBRANCH.replace(/\,[\s\S]+/g, ""); 
+			//alert("IncBRANCH: "+IncBRANCH);
+			IncPJVNO = string[i].childNodes[0].nodeValue.replace(/[\s\S]+\=\s+|\}/g, "");
+			// alert("IncPJVNO : "+IncPJVNO);
+			 
+			 
+			 ARRY_PJVNO[i]=IncPJVNO;
+			 ARRY_InvoiceNo[i]=IncInvoiceNo;
+			 
+				
+		htm_txt_lrIncStr += '		      <li>';
+        htm_txt_lrIncStr += '                    <div class="lr-list-head">';
+        htm_txt_lrIncStr += '                        <span class="left-item">Invoice No : '+IncInvoiceNo+'</span>';
+	    htm_txt_lrIncStr += '                        <span class="right-item">BRANCH : '+IncBRANCH+'</span>';
+        htm_txt_lrIncStr += '                    </div>';
+        htm_txt_lrIncStr += '                    <div class="list-row">';
+        htm_txt_lrIncStr += '   <a href="upload-LR.html" class="lr-action-btn" id="'+IncInvoiceNo+'" onClick="InvoiceNo(this.id);">Edit entry</a>';
+        htm_txt_lrIncStr += '                    </div>';
+        htm_txt_lrIncStr += '                </li>';
+				
+			 }
+			 //alert(ARRY_InvoiceNo);
+			 
+			 LRIncTxt = htm_txt_lrIncStr;
+			 
+				document.getElementById("LRInc").innerHTML=LRIncTxt;
+				}
+				
+				else {
+       			       			
+       				alert("Reciving Error! ");
+       			}
+				
+				}
+	
+
+
+
+
+
+
+}
+
+var CurrentIN;
+var CurrentPJVNO;
+
+function InvoiceNo(IN)
+            {
+               //alert(clicked_id);
+            					
+            	 CurrentIN=IN;
+				 
+				
+				
+				for (var j=0;j<ARRY_PJVNO.length;j++)
+				{
+					
+				if(ARRY_InvoiceNo[j]==CurrentIN)
+				{
+				CurrentPJVNO = ARRY_PJVNO[j];
+				//alert(CurrentPJVNO);
+				}
+				}
+            	localStorage.setItem("In", CurrentIN);
+				localStorage.setItem("pjv", CurrentPJVNO);
+				
+            	window.location="upload-LR.html";
+            	
+            }
+			
+
+//================Search===================			
+			
+jQuery.expr[':'].contains = function(a, i, m) {
+  return jQuery(a).text().toUpperCase()
+      .indexOf(m[3].toUpperCase()) >= 0;
+};
+
+
+
+
+
+
+$("#box").on("keyup", function() {
+    var srchTerm = $(this).val(), 
+        $rows = $("#LR").children("li");
+		 $("#box").attr('value', srchTerm);
+    if (srchTerm.length > 0) {
+		
+        $rows.stop().hide();
+		$("#LR").find("li:contains('"+srchTerm+"')").stop().show();
+		
+    } else {
+        $rows.stop().show();
+    }   
+});
+
+$("#box").on("keyup", function() {
+    var srchTerm = $(this).val(), 
+        $rows = $("#LRInc").children("li");
+		 $("#box").attr('value', srchTerm);
+    if (srchTerm.length > 0) {
+		
+        $rows.stop().hide();
+		$("#LRInc").find("li:contains('"+srchTerm+"')").stop().show();
+		
+    } else {
+        $rows.stop().show();
+    }   
+});
+ 
+ 
+ 
+ function supplierLogout()
+{
+
+
+window.location="index.html";
+
+}
+        
+</script>
+                 
+                  
+                  
+                    </ul>
+                 </div>
+                 
+                 <div id="country2" class="tabcontent">
+                    <ul id="LRInc">
+                   
+                       <!-- <li>
+                            <div class="lr-list-head">
+                                <span class="left-item">Invoice No : 145</span>
+                                <span class="right-item">BRANCH : TUP</span>
+                            </div>
+                            <div class="list-row">
+                                <a href="upload-LR.html" class="lr-action-btn">Edit entry</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="lr-list-head">
+                                <span class="left-item">Invoice No : 145</span>
+                                <span class="right-item">BRANCH : TUP</span>
+                            </div>                           
+                            <div class="list-row">
+                                <a href="upload-LR.html" class="lr-action-btn">Edit entry</a>
+                            </div>
+                        </li>-->
+                    </ul>
+                 </div>
+            </div>                   
+        </main>
+        </div>
+        
+        <script src="js/main.js"></script>
+        
+        <script type="text/javascript">
+        
+        var countries=new ddtabcontent("countrytabs")
+        countries.setpersist(true)
+        countries.setselectedClassTarget("link") //"link" or "linkparent"
+        countries.init()
+        
+        </script>        
+        
+    </body>
+     
+                
+        
+</html>
+
+

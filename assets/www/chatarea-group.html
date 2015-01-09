@@ -1,0 +1,902 @@
+	<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Group Chat Name</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/base.css">       
+        <link rel="stylesheet" href="css/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="css/custom-dropdown.css" />
+        <link rel="stylesheet" type="text/css" href="slick-carousel/slick.css"/>
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+       <script src="js/cordova.js"></script>
+        <noscript><link rel="stylesheet" type="text/css" href="css/noJS.css" /></noscript>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-ui.js"></script> 
+           
+        <script type="text/javascript" charset="utf-8" src="js/statusbarnotification.js"></script> 
+        
+		
+ 
+    </head>
+    <body onload="myFunction();">
+    
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- Add your site or application content here -->
+       <main class="lr-copy-upload" role="main">
+        
+        	<header class="group-chat-header" data-role="header" id="header-wrap">
+            	<figure class="back"><a id="go-back"><img src="img/thick-arrow-back.svg"></a></figure>
+                <div class="group-chat-name">
+                	<figure><img src="img/contact-profile-pic2.jpg"></figure>
+                    <figcaption class="chat-title">
+                        <h2 id="h2"></h2>
+                        <h6 id="h6"></h6>
+                    </figcaption>
+                </div>
+            </header>
+              	<div class="chat-area" data-role="content">
+                 <p id="txt" ></p>
+              
+            </div>
+            
+            
+                <div class="chat-input" id="chat-input-area">
+            	<button class="attach-file" onclick="getPhoto();"><img src="img/chat-attach-ico.png"></button>
+                <textarea id="TextField" class="chat-input-box" autofocus></textarea>
+                <button onclick="GroupSend();"class="send-button">Send</button>
+               
+            </div>
+        </main>
+        <script src="js/main.js"></script>  
+    </body>
+</html>
+  
+ 
+<script type="text/javascript" charset="utf-8">
+
+        var i;
+		var EMPCODE, EMPNAME;
+		var me = window.localStorage.getItem("userid");
+		var GroupToID = window.localStorage.getItem("Group_Id");
+		var Group_Name = window.localStorage.getItem("Group_NAME"); 
+		var keyvalue = window.localStorage.getItem("key");
+		var xmlObject;
+		var oldlen=0;
+	    var tname; 
+		var fname="";           
+	        //String to Xml
+	      // alert(Group_Name);
+			
+			 function myFunction() {
+				 
+					GroupMembers();
+					GroupStart();
+					setInterval(function(){ GroupRecive() }, 10000);
+					
+                     }
+			
+			
+//=======================Notification	===================	
+			function sendNotification(name, content) {
+				navigator.notification.beep(1);
+				window.plugins.statusBarNotification.notify(name, content);
+			}
+			
+			function clearNotification() {
+				window.plugins.statusBarNotification.clear();
+			}		
+			
+			
+			
+//==================String To XML==============================			
+	       
+		  
+	        if (window.DOMParser)
+	  {
+	  parser=new DOMParser();
+	  xmlDoc=parser.parseFromString(keyvalue,"text/xml");
+	  }
+	else // Internet Explorer
+	  {
+	  xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+	  xmlDoc.async=false;
+	  xmlDoc.loadXML(keyvalue);
+	  }
+	       
+	       
+	        
+	        EMPCODE=xmlDoc.getElementsByTagName("EMPCODE");
+	        EMPNAME=xmlDoc.getElementsByTagName("EMPNAME");
+	         
+			 
+			 
+			
+				
+		    
+			  for (i=0;i<EMPCODE.length;i++)
+                         {	
+						 
+								 if(me==EMPCODE[i].childNodes[0].nodeValue)
+								 {
+									fname=EMPNAME[i].childNodes[0].nodeValue;
+								 
+								 }
+		               
+				   }
+				   if(fname=="")
+								 {
+									fname = window.localStorage.getItem("username");
+								 }
+				   
+//DATE SESION
+//============================================
+
+
+var ChatFromeId = me;
+//alert("frome ID:" + ChatFromeId);
+var ChatToId    = GroupToID;
+//alert("To ID:" + ChatToId);
+var ChatText="";
+var ChatType;
+var ChatName=fname;
+var ChatTag = "";
+var imgsrc;
+var day;
+var clas;
+var colorClass = ["grey-bg", "green-bg", "red-bg"];
+var MembersArray=[];
+var temp;
+var k;	
+	
+	function GroupStart()
+				 {
+					
+					  
+        	 	var chat ='<?xml version="1.0" encoding="utf-8"?> \
+        		<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+        		xmlns:xsd="http://www.w3.org/2001/XMLSchema" \
+        		xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\
+        		  <soap:Body>\
+        			<BindGrpChat xmlns="http://tempuri.org/">\
+        			  <data>\
+        			    <FROMUSER>'+ChatFromeId+'</FROMUSER>\
+						 <TOUSER>'+ChatToId+'</TOUSER>\
+		 			  </data>\
+        			 </BindGrpChat>\
+        		 </soap:Body>\
+        		</soap:Envelope>';
+
+
+
+
+
+        		
+        		  var xhr = new XMLHttpRequest();  
+        		  xhr.open("POST","http://172.16.11.89:9595/TCSService.asmx?op=BindGrpChat",true); 
+        		  xhr.setRequestHeader("Content-Type", "text/xml; charset=utf-8");    
+        		  xhr.setRequestHeader("Accept", "application/xml", "text/xml", "\*/\*");
+        		  xhr.setRequestHeader("SOAPAction", "http://tempuri.org/BindGrpChat"); //action_name
+        		  xhr.send(chat);
+        		  
+        		 xhr.onload = function() {
+       			
+       			if (xhr.status == 200) {
+       			 //console.log(JSON.stringify(login));
+       			 	
+       		   var chatDoc=xhr.responseXML;
+				
+				var chatString = (new XMLSerializer()).serializeToString(chatDoc);
+         	   // localStorage.setItem("bkpXMLStr", chatString);
+				
+				
+					
+					
+       		     
+        		       // alert("Success");
+				  FromName=chatDoc.getElementsByTagName("FromName");
+        		  ToName=chatDoc.getElementsByTagName("ToName");
+        		  Content=chatDoc.getElementsByTagName("Content");
+        		  SentDate=chatDoc.getElementsByTagName("SentDate");
+        		  
+				  //alert(FromName.length);
+				 	   
+					// alert("Frome Name: "+ChatName)
+		  for (var i=oldlen;i<FromName.length;i++)
+		  {	
+				  
+									  
+				if (ChatName == FromName[i].childNodes[0].nodeValue)
+				{
+				clas = "self-chat";	
+				}
+				else
+				{
+					clas = "other-chats";
+					
+				 for (var j=0; j<MembersArray.length;j++)
+					{
+						if(MembersArray[j]==FromName[i].childNodes[0].nodeValue)
+						{
+							//alert(colorClass[j]);
+						 	
+									if(j>2)
+									{
+										
+										k=j;
+										k=k%3;
+									temp = colorClass[k];
+									}
+									else
+									{
+									temp = colorClass[j];
+									}
+							
+						}
+					}
+				}
+     			
+				
+				var datestr = SentDate[i].childNodes[0].nodeValue;
+					datestr = datestr.replace(/[\s\S]+\T/, ""); 
+					datestr = datestr.replace(/\:\d+$/, "");
+     			
+				 var d = SentDate[i].childNodes[0].nodeValue;
+				   d = d.replace(/\T[\s\S]+/, "");
+				  //alert(d);
+				   var year = d.replace(/\-[\s\S]+/, "");
+				   //alert(year);
+				   
+				   var month = d.replace(/\d{4}\-/, "");
+				   month = month.replace(/\-[\s\S]+/, "");
+				  // alert(month);
+     			
+         		 var monthNames = [ "January", "February", "March", "April", "May", "June",
+     			                    "July", "August", "September", "October", "November", "December" ];
+
+     			 var MonthStr = monthNames[month-1];
+				 
+				 //alert(MonthStr);
+				 
+				 var date = d.replace(/[\s\S]+\-/, "");
+				 //alert(date);
+				
+     			
+     			 var today = date +" "+ MonthStr + " "+ year;
+				 
+				     			 
+     			 //document.getElementById("Date").innerHTML = today;
+     			 //return strTime;
+     			
+                    
+					//alert(datestr); 
+					
+     			 
+     			   
+     			   //document.getElementById("TextField").value="";
+     			  var tempTag="";
+				  if(day != today)
+				  {
+				 				 			 tempTag+=' <h6><span id="Date">'+today+'</span></h6>';
+				 
+				  day=today;
+				 // alert(day);
+				  }
+				  
+     			  tempTag+='<article class="'+clas+'" id="article'+i+'">';
+     			  tempTag+='        	<figure>';
+     			  tempTag+='       	<img src="img/contact-profile-pic2.jpg"></img>';
+     			  tempTag+='                 </figure>';
+     			  tempTag+='                 <aside class="'+temp+'">';
+     			  tempTag+='                 	<a href="#">'+FromName[i].childNodes[0].nodeValue+' : '+datestr+'</a>';
+     			  tempTag+='                     <p>'+Content[i].childNodes[0].nodeValue+'</p>';
+     			  tempTag+='             </aside>';
+     			  tempTag+='            </article>';
+
+     			 ChatTag += tempTag; 
+     			
+     			 
+				
+				
+				}
+				
+			
+			document.getElementById('txt').innerHTML = ChatTag;
+				oldlen = FromName.length;
+							
+//================Send focus=========================
+
+var xId = document.getElementsByTagName("article").length;
+xId=xId-1;
+document.getElementsByTagName("article")[xId].scrollIntoView();
+//article:last-child
+//document.getElementsByTagName("article").lastChild.scrollIntoView();
+
+				  
+					
+				
+				}
+				 
+				
+				
+				else {
+       			       			
+       				//alert("Reciving Error! ");
+       			     }
+				
+				            }
+						
+			
+					}
+        
+					 
+			
+
+
+//=========================Image Section=====================
+
+
+//Photo Select Start Here
+
+        var pictureSource;   // picture source
+        var destinationType; // sets the format of returned value
+		var  fileMediaType; //MEdia Type
+        
+        // Wait for device API libraries to load
+        //
+        document.addEventListener("deviceready",onDeviceReady,false);
+
+        // device APIs are available
+        //
+        function onDeviceReady() {
+            pictureSource=navigator.camera.PictureSourceType;
+            destinationType=navigator.camera.DestinationType;
+            fileMediaType=navigator.camera.MediaType;
+            
+        
+        }
+
+        /*
+         function onSuccess(imageURI) {
+        lastFileURI = imageURI;
+        window.resolveLocalFileSystemURI(imageURI,
+            function(fileEntry) {
+                fileEntry.file(
+                    function(file) {
+                        var reader = new FileReader();
+                        reader.onloadend = function(evt) {
+							 console.log("SEE Here: " + evt.target.result);
+							// imgsrc= evt.target.result;
+                           // $("#smallImage").css("display", "block").attr("src", evt.target.result);
+                        };
+                        reader.onerror = function(evt) {
+                            alert(defaultErr);
+                        };
+                        reader.readAsDataURL(file);
+						
+                    },
+                    function(error) {
+                        alert(defaultErr);
+                    }
+                );
+            },
+            function(evt) {
+                alert(defaultErr);
+            }
+        );
+    
+    
+	
+	}*/
+		
+		
+		
+       function onPhotoURISuccess(imageURL) {
+          
+		  
+		 
+		  
+        	//====================DAte Section==================
+        	
+        	//ChatType=jpeg;
+        	 var d = new Date();
+        	 var hours = d.getHours();
+        	 var minutes = d.getMinutes();
+        	 var seconds = d.getSeconds(); 
+        	 var ampm = hours >= 12 ? 'pm' : 'am';
+        	 hours = hours % 12;
+        	 hours = hours ? hours : 12; // the hour '0' should be '12'
+        	 if(hours<10) {
+        		 hours='0'+hours;
+        		} 
+        	 minutes = minutes < 10 ? '0'+minutes : minutes;
+           	 var strTime = hours + ':' + minutes + ' ' + ampm;
+        	 var date = d.getDate();
+        	 if(date<10) {
+        		  date='0'+date;
+        		} 
+        	 var month = d.getMonth();
+        	 month = month +1;
+        	 if(month<10) {
+        	   month='0'+month;
+        	} 
+        	 var monthNames = [ "January", "February", "March", "April", "May", "June",
+        	                    "July", "August", "September", "October", "November", "December" ];
+
+        	 var MonthStr = monthNames[d.getMonth()];
+        	 var year = d.getFullYear();
+        	 
+        	 
+        	 var today =date +" "+ MonthStr + " "+ year;
+        	 
+        	 //document.getElementById("Date").innerHTML = today;
+        	//===============================================
+        	
+        	var ChatTime = date + "-" + month + "-" + year + " " + hours + ":" + minutes + ":" + seconds +" "+ ampm;
+        	
+	        imgsrc= imageURL;
+	        //alert(imgsrc);
+             var tempTag="";
+			 
+			  if(day != today)
+				  {
+				 				 			 tempTag+=' <h6><span id="Date">'+today+'</span></h6>';
+				 
+				  day=today;
+				 // alert(day);
+				  }
+			 
+             tempTag+='<article class="self-chat">';
+             tempTag+='        	<figure>';
+             tempTag+='       	<img src="img/contact-profile-pic1.jpg">';
+             tempTag+='                 </figure>';
+             tempTag+='                 <aside class="red-bg">';
+             tempTag+='                 	<a href="#">'+ChatName+' : '+strTime+'</a>';
+             tempTag+='                     <img  src="data:image/jpeg;base64, '+imgsrc+'">';
+
+             tempTag+='             </aside>';
+             tempTag+='            </article>';
+
+            ChatTag += tempTag; 
+          	ChatText =imgsrc ;
+          document.getElementById('txt').innerHTML = ChatTag;
+			//localStorage.setItem("bkp", ChatTag);
+		/*	
+			
+			
+var chat ='<?xml version="1.0" encoding="utf-8"?> \
+	<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" \
+	xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\
+	  <soap:Body>\
+		<IndividualChat xmlns="http://tempuri.org/">\
+		  <data>\
+		    <FROMUSER>'+ChatFromeId+'</FROMUSER>\
+			<TOUSER>'+ChatToId+'</TOUSER>\
+			<CONTENT>'+ChatText+'</CONTENT>\
+			<SENTDATE>'+ChatTime+'</SENTDATE>\
+			<TYPE>'+ChatType+'</TYPE>\
+		  </data>\
+		</IndividualChat>\
+	 </soap:Body>\
+	</soap:Envelope>';
+
+
+*/
+      
+        
+        }
+
+   function getPhoto() {
+	     
+	   
+	   
+	      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
+	       // destinationType: destinationType.FILE_URI,
+			destinationType: destinationType.DATA_URL,
+	        sourceType: pictureSource.PHOTOLIBRARY
+			//mediaType: fileMediaType.ALLMEDIA
+
+			});
+	      
+	    }
+	   
+        // Called if something bad happens.
+        //
+        function onFail(message) {
+            alert('Failed because: ' + message);
+        }
+
+
+//=========================================================
+//alert(strTime);
+
+
+//localStorage.setItem("Chat_List", chat);
+
+
+//===============================Recive======================
+
+        var FromName, ToName, Content, SentDate;
+		
+		
+		
+        
+        function GroupRecive()
+        {
+        	 	var chat ='<?xml version="1.0" encoding="utf-8"?> \
+        		<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+        		xmlns:xsd="http://www.w3.org/2001/XMLSchema" \
+        		xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\
+        		  <soap:Body>\
+        			<BindGrpChat xmlns="http://tempuri.org/">\
+        			  <data>\
+        			    <FROMUSER>'+ChatFromeId+'</FROMUSER>\
+						 <TOUSER>'+ChatToId+'</TOUSER>\
+        			  </data>\
+        			 </BindGrpChat>\
+        		 </soap:Body>\
+        		</soap:Envelope>';
+
+
+        		  var xhr = new XMLHttpRequest();  
+        		  xhr.open("POST","http://172.16.11.89:9595/TCSService.asmx?op=BindGrpChat",true); 
+        		  xhr.setRequestHeader("Content-Type", "text/xml; charset=utf-8");    
+        		  xhr.setRequestHeader("Accept", "application/xml", "text/xml", "\*/\*");
+        		  xhr.setRequestHeader("SOAPAction", "http://tempuri.org/BindGrpChat"); //action_name
+        		  xhr.send(chat);
+        		  
+				  
+				  
+				  
+				  
+        		 xhr.onload = function() {
+       			
+       			if (xhr.status == 200) {
+       			 //console.log(JSON.stringify(login));
+       			 	
+       		   var chatDoc=xhr.responseXML;
+				
+				  FromName=chatDoc.getElementsByTagName("FromName");
+        		  ToName=chatDoc.getElementsByTagName("ToName");
+        		  Content=chatDoc.getElementsByTagName("Content");
+        		  SentDate=chatDoc.getElementsByTagName("SentDate");
+        		  
+				  
+				
+								  
+			
+  for (var i=oldlen;i<FromName.length;i++)
+  {	
+				  
+			if (ChatName != FromName[i].childNodes[0].nodeValue)
+		{
+									  
+     		      	if (ChatName == FromName[i].childNodes[0].nodeValue)
+				{
+				clas = "self-chat";	
+				}
+				else
+				{
+					clas = "other-chats";
+					
+				 for (var j=0; j<MembersArray.length;j++)
+					{
+						if(MembersArray[j]==FromName[i].childNodes[0].nodeValue)
+						{
+							//alert(colorClass[j]);
+						 	
+									if(j>2)
+									{
+										
+										k=j;
+										k=k%3;
+									temp = colorClass[k];
+									}
+									else
+									{
+									temp = colorClass[j];
+									}
+							
+						}
+					}
+				}
+     			
+     			
+				
+				var datestr = SentDate[i].childNodes[0].nodeValue;
+					datestr = datestr.replace(/[\s\S]+\T/, ""); 
+					datestr = datestr.replace(/\:\d+$/, "");
+     			
+				 var d = SentDate[i].childNodes[0].nodeValue;
+				   d = d.replace(/\T[\s\S]+/, "");
+				  //alert(d);
+				   var year = d.replace(/\-[\s\S]+/, "");
+				   //alert(year);
+				   
+				   var month = d.replace(/\d{4}\-/, "");
+				   month = month.replace(/\-[\s\S]+/, "");
+				  // alert(month);
+     			
+         		 var monthNames = [ "January", "February", "March", "April", "May", "June",
+     			                    "July", "August", "September", "October", "November", "December" ];
+
+     			 var MonthStr = monthNames[month-1];
+				 
+				 //alert(MonthStr);
+				 
+				 var date = d.replace(/[\s\S]+\-/, "");
+				 //alert(date);
+				
+     			
+     			 var today = date +" "+ MonthStr + " "+ year;
+				 
+				     			 
+     			 //document.getElementById("Date").innerHTML = today;
+     			 //return strTime;
+     			
+                    
+					//alert(datestr); 
+					
+     			 
+     			   
+     			   //document.getElementById("TextField").value="";
+     			  var tempTag="";
+				  if(day != today)
+				  {
+				 				 			 tempTag+=' <h6><span id="Date">'+today+'</span></h6>';
+				 
+				  day=today;
+				 // alert(day);
+				  }
+				  
+     			  tempTag+='<article class="'+clas+'" id="article'+i+'">';
+     			  tempTag+='        	<figure>';
+     			  tempTag+='       	<img src="img/contact-profile-pic2.jpg"></img>';
+     			  tempTag+='                 </figure>';
+     			  tempTag+='                 <aside class="'+temp+'">';
+     			  tempTag+='                 	<a href="#">'+FromName[i].childNodes[0].nodeValue+' : '+datestr+'</a>';
+     			  tempTag+='                     <p>'+Content[i].childNodes[0].nodeValue+'</p>';
+     			  tempTag+='             </aside>';
+     			  tempTag+='            </article>';
+
+     			 ChatTag += tempTag; 
+     			// ChatText = tempTxt;
+     			 document.getElementById('txt').innerHTML = ChatTag;
+				  //localStorage.setItem("bkp", ChatTag);
+				 //var loc = window.localStorage.getItem("bkp");
+				// alert(loc);
+				     sendNotification(FromName[i].childNodes[0].nodeValue, Content[i].childNodes[0].nodeValue);	  
+				        
+						 
+					}
+				
+				}
+				
+				         oldlen = FromName.length;
+						 //alert("Starting  old len: "+oldlen);
+						 //alert("Recive old len: "+oldlen);
+
+//================Send focus=========================
+
+var xId = document.getElementsByTagName("article").length;
+xId=xId-1;
+document.getElementsByTagName("article")[xId].scrollIntoView();
+				
+				}
+				
+				
+				
+				else {
+       			       			
+       				//alert("Reciving Error! ");
+       			}
+				
+				            }
+						
+			
+        		  
+        }
+//===============================Send======================
+function GroupSend()
+{
+	
+	
+	
+ var d = new Date();
+ var hours = d.getHours();
+ var minutes = d.getMinutes();
+ var seconds = d.getSeconds(); 
+ var ampm = hours >= 12 ? 'PM' : 'AM';
+ hours = hours % 12;
+ hours = hours ? hours : 12; // the hour '0' should be '12'
+ if(hours<10) {
+	 hours='0'+hours;
+	} 
+ minutes = minutes < 10 ? '0'+minutes : minutes;
+ seconds=seconds < 10 ? '0'+seconds : seconds;
+ var strTime = hours + ':' + minutes + ' ' + ampm;
+ var date = d.getDate();
+ if(date<10) {
+	  date='0'+date;
+	} 
+ var month = d.getMonth();
+ month = month +1;
+ if(month<10) {
+   month='0'+month;
+} 
+ var monthNames = [ "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December" ];
+
+ var MonthStr = monthNames[d.getMonth()];
+ var year = d.getFullYear();
+ 
+ var tempTxt = document.getElementById("TextField").value;
+ 
+ if(tempTxt!="")
+ {
+ var today =date +" "+ MonthStr + " "+ year;
+ 
+ //document.getElementById("Date").innerHTML = today;
+ //return strTime;
+// alert(today)
+
+	
+  var ChatTime = date + "-" + month + "-" + year + " " + hours + ":" + minutes + ":" + seconds +" "+ ampm;
+   
+   document.getElementById("TextField").value="";
+  var tempTag="";
+  
+  if(day != today)
+				  {
+				 				 			 tempTag+=' <h6><span id="Date">'+today+'</span></h6>';
+				 
+				  day=today;
+				 // alert(day);
+				  }
+				  
+  tempTag+='<article class="self-chat" id="myId">';
+  tempTag+='        	<figure>';
+  tempTag+='       	<img src="img/contact-profile-pic1.jpg"></img>';
+  tempTag+='                 </figure>';
+  tempTag+='                 <aside class="red-bg">';
+  tempTag+='                 	<a href="#">'+ChatName+' : '+strTime+'</a>';
+  tempTag+='                     <p>'+tempTxt+'</p>';
+  tempTag+='             </aside>';
+  tempTag+='            </article>';
+
+ ChatTag += tempTag; 
+ ChatText = tempTxt;
+ document.getElementById('txt').innerHTML = ChatTag;
+//localStorage.setItem("bkp", ChatTag);
+//alert(ChatTime)
+
+
+//================Send focus=========================
+             /*  var xId = FromName.length-1;
+				document.getElementsByTagName("article")[xId].scrollIntoView();
+				xId=xId+1;*/
+
+//================Send focus=========================
+
+var xId = document.getElementsByTagName("article").length;
+xId=xId-1;
+document.getElementsByTagName("article")[xId].scrollIntoView();
+				
+//=========================================UpLoad========================
+
+
+
+//alert(ChatTime);
+
+var Gchat ='<?xml version="1.0" encoding="utf-8"?> \
+	<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" \
+	xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\
+	  <soap:Body>\
+		<GroupChat xmlns="http://tempuri.org/">\
+		  <data>\
+			<FROMUSER>'+ChatFromeId+'</FROMUSER>\
+			<GRPID>'+ChatToId+'</GRPID>\
+			<CONTENT>'+ChatText+'</CONTENT>\
+			<SENTDATE>'+ChatTime+'</SENTDATE>\
+		  </data>\
+		</GroupChat>\
+	 </soap:Body>\
+	</soap:Envelope>';
+
+
+	  var xhr = new XMLHttpRequest();  
+	  xhr.open("POST","http://172.16.11.89:9595/TCSService.asmx?op=GroupChat",true); 
+	  xhr.setRequestHeader("Content-Type", "text/xml; charset=utf-8");    
+	  xhr.setRequestHeader("Accept", "application/xml", "text/xml", "\*/\*");
+	  xhr.setRequestHeader("SOAPAction", "http://tempuri.org/GroupChat"); //action_name
+	  xhr.send(Gchat);
+	 
+    
+
+}
+
+}
+
+
+//============================Getting group Members======================
+var groupFromName, groupMembers;
+var groupMembersDisplay="";
+function GroupMembers()
+{
+
+var Gchat ='<?xml version="1.0" encoding="utf-8"?> \
+	<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" \
+	xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\
+	  <soap:Body>\
+	<BindGrpMembers xmlns="http://tempuri.org/">\
+      <GrpID>'+ChatToId+'</GrpID>\
+    </BindGrpMembers>\
+	 </soap:Body>\
+	</soap:Envelope>';
+
+
+	  var xhr = new XMLHttpRequest();  
+	  xhr.open("POST","http://172.16.11.89:9595/TCSService.asmx?op=BindGrpMembers",true); 
+	  xhr.setRequestHeader("Content-Type", "text/xml; charset=utf-8");    
+	  xhr.setRequestHeader("Accept", "application/xml", "text/xml", "\*/\*");
+	  xhr.setRequestHeader("SOAPAction", "http://tempuri.org/BindGrpMembers"); //action_name
+	  xhr.send(Gchat);
+	  
+	  
+	  xhr.onload = function() {
+	  if (xhr.status == 200) {
+       			 //console.log(JSON.stringify(login));
+       			 	
+       		   var chatDoc=xhr.responseXML;
+			
+			 
+        		       // alert("Success");
+				  groupFromName=chatDoc.getElementsByTagName("string");
+				  groupSentDate=chatDoc.getElementsByTagName("string");
+				  
+				  
+				    for (var i=0;i<groupFromName.length;i++)
+                  {	
+				  groupMembers=groupFromName[i].childNodes[0].nodeValue;
+				  groupMembers = groupMembers.replace(/[\s\S]+\=\s+/, "");
+				  groupMembers = groupMembers.replace(/\s+\}/, "");
+				  groupMembersDisplay += groupMembers;
+				  MembersArray[i]=groupMembers;
+				  //alert(MembersArray[i]);
+				  groupMembersDisplay += ", ";
+				 
+				 
+	             }
+				
+					groupMembersDisplay=groupMembersDisplay.replace(/,\s+$/, "");
+				
+				 //alert(groupMembersDisplay);
+				 
+				 document.getElementById("h2").innerHTML = Group_Name;
+				 document.getElementById("h6").innerHTML = groupMembersDisplay;
+	  }
+	  
+	  else {
+       			       			
+       				alert("Reciving Error! ");
+       			}
+	  
+}
+}
+
+</script>
+

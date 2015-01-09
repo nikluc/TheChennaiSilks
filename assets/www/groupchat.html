@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Contact List</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/jquery.sidr.dark.css">    
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="js/jquery.min.js"></script> 
+        <script src="js/jquery-ui.js"></script>              
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/common.js"></script>
+        
+		
+</head>
+    <body class="white-bg" >
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <script type="text/javascript">main_menuEmployee();</script>
+        <header data-role="header" id="header-wrap">
+            <div class="menu-header">
+                <div class="main-menu" id="simple-menu" href="#sidr">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                <nav class="slide-menu">
+                    <ul>
+                    
+                        <li>
+                            <a href="contact-page.html">
+                            <img src="img/employee-ico.png">
+                            <figcaption>Employee</figcaption>
+                            </a>
+                        </li>
+                        <li>
+                          <a href="contact-page - Supplier.html">
+                          <img src="img/supplier-ico.png">
+                          <figcaption>Supplier</figcaption>
+                          </a>
+                        </li>
+                        
+                        <li>
+                            <a href="#">
+                            <img src="img/gchat-ico-h.png">
+                            <figcaption class="menu-act">Group Chat</figcaption>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <img src="img/group-sms.png">
+                            <figcaption>Group SMS</figcaption>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                </div>
+            <div class="search-cont" data-role="search">
+               <input type="text" value="" placeholder="Suppliers, Employess, Contact No, ID, Location..." id="box">
+            </div>
+        </header>
+        <main class="group-chat-landing" data-role="page" id="chatgroup">
+        	  <h2>Group Chat</h2>    
+              <ul id="group">
+              
+              
+              <script>
+var me = window.localStorage.getItem("userid");
+var GRPNAME,GRPID;
+var FormatGRPNAME = [], FormatGRPID = [];
+				
+		var ChatGroup="";
+ var chat ='<?xml version="1.0" encoding="utf-8"?> \
+	<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" \
+	xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\
+	  <soap:Body>\
+		 <BindGroup xmlns="http://tempuri.org/">\
+      <ID>'+me+'</ID>\
+    </BindGroup>\
+	 </soap:Body>\
+	</soap:Envelope>';
+
+	  var xhr = new XMLHttpRequest();  
+	  xhr.open("POST","http://182.72.119.68:8888/TCSService.asmx?op=BindGroup",true); 
+	  xhr.setRequestHeader("Content-Type", "text/xml; charset=utf-8");    
+	  xhr.setRequestHeader("Accept", "application/xml", "text/xml", "\*/\*");
+	  xhr.setRequestHeader("SOAPAction", "http://tempuri.org/BindGroup"); //action_name
+	  xhr.send(chat);
+	  
+	   xhr.onload = function() {
+       			
+       			if (xhr.status == 200) {
+       			 //console.log(JSON.stringify(login));
+       			 	
+       		   var chatDoc=xhr.responseXML;
+			
+			 
+        		       // alert("Success");
+				  
+        		  GRPNAME=chatDoc.getElementsByTagName("string");
+				  GRPID =chatDoc.getElementsByTagName("string");
+        		  
+				  var tempTag="";
+				 
+				  for (var i=0;i<GRPNAME.length;i++)
+                  {	
+				  
+				    
+				    FormatGRPNAME[i] = GRPNAME[i].childNodes[0].nodeValue;
+					FormatGRPNAME[i] = FormatGRPNAME[i].replace(/[\s\S]+\=/, "");
+					FormatGRPNAME[i] = FormatGRPNAME[i].replace(/\s+\}/, "");
+					FormatGRPID[i] = GRPID[i].childNodes[0].nodeValue;
+					FormatGRPID[i] = FormatGRPID[i].replace(/\,[\s\S]+/, "");
+					FormatGRPID[i] = FormatGRPID[i].replace(/[\s\S]+\s+\=\s+/, "");
+					
+					
+					tempTag+=' <li >';
+					tempTag+='<a href="#" >';
+					tempTag+='<div class="groups-wrap" id="'+FormatGRPID[i]+'" onclick="group(this.id)">';
+					tempTag+='<figure><img src="img/contact-profile-pic1.jpg"></figure>';
+					tempTag+='<h6>'+FormatGRPNAME[i]+'</h6>';
+					tempTag+='<p>Status Message</p>';
+					tempTag+='</div>';
+					tempTag+='</a>';
+					tempTag+='</li>';
+               
+     			  
+     			// ChatText = tempTxt;
+     			
+				 //alert(FormatGRPID);
+				  
+				  }
+				  ChatGroup += tempTag;
+				  document.getElementById('group').innerHTML = tempTag;
+				   
+				}
+				else {
+       			       			
+       				alert("Reciving Error! ");
+       			}
+				
+				            }
+							
+var Group_Id;
+var Group_NAME;
+							
+		function group(Groupid)
+						{
+							
+            	Group_Id=Groupid;
+				for (var i=0;i<GRPID.length;i++)
+                  {	
+				  
+				 if(Group_Id==FormatGRPID[i])
+				 
+						{			  
+				    Group_NAME =FormatGRPNAME[i]
+					
+						}
+				  }
+            	localStorage.setItem("Group_Id", Group_Id);
+				localStorage.setItem("Group_NAME", Group_NAME);
+				//alert(Group_NAME);
+            	window.location="chatarea-group.html";	
+						}
+						
+						
+						
+jQuery.expr[':'].contains = function(a, i, m) {
+  return jQuery(a).text().toUpperCase()
+      .indexOf(m[3].toUpperCase()) >= 0;
+};
+
+
+						
+$("#box").on("keyup", function() {
+    var srchTerm = $(this).val(), 
+        $rows = $("#group").children("li");
+		 $("#box").attr('value', srchTerm);
+    if (srchTerm.length > 0) {
+        $rows.stop().hide();
+        $("#group").find("li:contains('" + srchTerm + "')").stop().show();
+    } else {
+        $rows.stop().show();
+    }   
+});
+	        
+			
+			function employeeLogout()
+{
+
+
+me="";
+window.location="index.html";
+
+}
+        </script>
+              	<!--<li>
+                	<a href="#">
+                    <div class="new-group">
+                    <figure><img src="img/create-new-group-icon.svg"></figure>
+                    <h6>Create New Group</h6><br>
+                    </div>
+                    </a>
+                </li>
+                <li>
+                	<a href="chatarea.html">
+                    <div class="groups-wrap">
+                    <figure><img src="img/contact-profile-pic1.jpg"></figure>
+                    <h6>Group Chat Name 2</h6>
+                    <p>Status Message</p>
+                    </div>
+                    </a>
+                </li>
+                <li>
+                	<a href="chatarea.html">
+                    <div class="groups-wrap">
+                    <figure><img src="img/contact-profile-pic3.jpg"></figure>
+                    <h6>Group Chat Name 2</h6>
+                    <p>Status Message</p>
+                    </div>
+                    </a>
+                </li>
+                <li>
+                	<a href="chatarea.html">
+                    <div class="groups-wrap">
+                    <figure><img src="img/contact-profile-pic4.jpg"></figure>
+                    <h6>Group Chat Name 1</h6>
+                    <p>Status Message</p>
+                    </div>
+                    </a>
+                </li>
+                <li>
+                	<a href="chatarea.html">
+                    <div class="groups-wrap">
+                    <figure><img src="img/contact-profile-pic2.jpg"></figure>
+                    <h6>Group Chat Name 2</h6>
+                    <p>Status Message</p>
+                    </div>
+                    </a>
+                </li>
+                <li>
+                	<a href="chatarea.html">
+                    <div class="groups-wrap">
+                    <figure><img src="img/contact-profile-pic3.jpg"></figure>
+                    <h6>Group Chat Name 1</h6>
+                    <p>Status Message</p>
+                    </div>
+                    </a>
+                </li>
+                <li>
+                	<a href="chatarea.html">
+                    <div class="groups-wrap">
+                    <figure><img src="img/contact-profile-pic4.jpg"></figure>
+                    <h6>Group Chat Name 2</h6>
+                    <p>Status Message</p>
+                    </div>
+                    </a>
+                </li>-->
+              </ul>
+        </main>
+
+    </body>
+</html>
